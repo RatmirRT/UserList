@@ -10,7 +10,7 @@
     </RouterLink>
   </div>
 
-  <div v-else>Данных нет</div>
+  <span v-else>No data</span>
 </template>
 
 <script>

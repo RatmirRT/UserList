@@ -40,18 +40,14 @@ export default {
     async initialCharactersList(queryParametrs) {
       let url = 'https://rickandmortyapi.com/api/character'
       this.pageNumber = Number(queryParametrs.page) ? Number(queryParametrs.page) : 1
-      const response = await axios(url, { params: queryParametrs })
-      this.userListInfo = response.data.info
-      this.userList = response.data.results
-    },
-    searchedCharachters(response) {
-      if (!response) {
+      try {
+        const response = await axios(url, { params: queryParametrs })
+        this.userListInfo = response.data.info
+        this.userList = response.data.results
+      } catch {
         this.userList = null
         this.userListInfo = null
-        return
       }
-      this.userListInfo = response.data.info
-      this.userList = response.data.results
     },
   },
 }

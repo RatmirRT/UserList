@@ -1,5 +1,5 @@
 <template>
-  <div class="character-card">
+  <div class="character-card" v-if="character">
     <div class="character-maininfo">
       <div class="character-picture">
         <img :src="character.image" :alt="character.name" />
@@ -16,6 +16,7 @@
       <p v-if="character.location">location : {{ character.location.name }}</p>
     </div>
   </div>
+  <span v-else>No data</span>
 </template>
 
 <script>
@@ -37,11 +38,15 @@ export default {
         this.$store.state.character.id === Number(this.$route.params.id)
       ) {
         this.character = this.$store.state.character
-      } else {
-        const url = 'https://rickandmortyapi.com/api/character/' + this.$route.params.id
+        return
+      }
+      const url = 'https://rickandmortyapi.com/api/character/' + this.$route.params.id
+      try {
         const response = await axios(url)
         this.character = response.data
         this.$store.commit('changeCurrentCharacter', this.character)
+      } catch {
+        this.character = null
       }
     },
   },
